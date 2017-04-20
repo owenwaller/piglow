@@ -160,9 +160,7 @@ func DoMain(p *PiGlowDriver) {
 	}()
 
 	wg.Wait()
-	// pause - required for the sim
-	// TODO  replace this quit a CTRL-C or q to quit in the sim
-	time.Sleep(5 * time.Second)
+
 	err = p.Reset()
 	if err != nil {
 		fmt.Printf("Could not halt %v\n", err)

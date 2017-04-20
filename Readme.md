@@ -27,7 +27,7 @@ The current feature list is
 *    Turn all of the leds off
 
 ## ToDo
-- [ ] remove the 5 second sleep at the end of the demo. This needs to be replaced with a "CTRL-C" or "q" to quit in the simulator. 
+- [x] remove the 5 second sleep at the end of the demo. This needs to be replaced with a "CTRL-C" or "q" to quit in the simulator.
 - [ ] Refactor the code into a GoBot metal driver
 - [ ] Add more tests
 - [ ] Check the test coverage
@@ -97,6 +97,8 @@ new LED intensity values to be flushed to the underlying PWM registers in the ha
 * The reset register resets all of the registers back to their default state. Any non-zero write will cause a reset. See the SN32218 datasheet for the details.
 
 ![The PiGlow Simualtor](https://github.com/owenwaller/piglow/blob/master/PiGlowSimulator.png)
+
+To quit the simulator press CTRL-C or Enter or Escape.
 
 ### Platform Support
 The simulator should run pretty much anywhere that Go runs. I've only tested it on Linux/AMD64 but Darwin/AMD64 and Windows/AMD64 should also work. The limiting factor will be the TCell terminal Ui library that is used to create the terminal Ui.
