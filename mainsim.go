@@ -12,8 +12,18 @@ var screen tcell.Screen
 func main() {
 	initUi()
 	defer closeUi()
+	initI2CBus()
+	defer closeI2CBus()
+	initDone()
+	defer closeDone()
 	// just create a PiGlow
 	p := NewPiGlow("PiGlow", nil) // the connection is repalced in the sim so nil is safe
+
+	// start the sim
+	go runSimulator()
+
+	// run the demo code
+	go DoMain(p)
 
 	// make sure we quit if CTRL-C or Escape or Enter are pressed
 	quit := make(chan struct{})
@@ -30,8 +40,7 @@ func main() {
 			}
 		}
 	}()
-	// run the code
-	go DoMain(p)
+
 	// wait for the qiuit channel to close - the defered closeUi will cleanup
 	<-quit
 }
@@ -53,4 +62,5 @@ func initUi() {
 
 func closeUi() {
 	screen.Fini()
+	panic("End Of Program - only main should remain")
 }
