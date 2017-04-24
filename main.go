@@ -14,6 +14,7 @@ func DoMain(p *PiGlowDriver) {
 
 	var wg sync.WaitGroup
 
+	// Faders
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
@@ -23,6 +24,98 @@ func DoMain(p *PiGlowDriver) {
 			fmt.Printf("Could not fade led %v\n", err)
 		}
 	}()
+
+	/*
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			p := p
+			err := p.FadeRing(Green, 128, 0, time.Second*3)
+			if err != nil {
+				fmt.Printf("Could not fade led %v\n", err)
+			}
+		}()
+	*/
+	/*
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			p := p
+			err := p.FadeSpiral(Spiral0, 128, 0, time.Second*3)
+			if err != nil {
+				fmt.Printf("Could not fade led %v\n", err)
+			}
+		}()
+	*/
+	/*
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			var pattern [MaxSpirals][MaxColors]bool
+			pattern[Spiral0][Green] = true
+			pattern[Spiral1][White] = true
+			pattern[Spiral2][Orange] = true // should panic if these are different!
+			p := p
+			err := p.FadeLeds(pattern, 128, 0, time.Second*2)
+			if err != nil {
+				fmt.Printf("Could not fade leds %v\n", err)
+			}
+		}()
+	*/
+
+	// Flashers
+	/*
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			p := p
+
+			err := p.FlashLed(Spiral0, White, 10, 0, time.Second*100)
+			if err != nil {
+				fmt.Printf("Could not light spiral %v\n", err)
+			}
+		}()
+	*/
+	/*
+	   wg.Add(1)
+	   go func() {
+	   	defer wg.Done()
+	   	p := p
+
+	   	err := p.FlashSpiral(Spiral2, 32, 15, time.Second*3)
+	   	if err != nil {
+	   		fmt.Printf("Could not light spiral %v\n", err)
+	   	}
+	   }()
+	*/
+
+	/*
+	   wg.Add(1)
+	   go func() {
+	   	defer wg.Done()
+	   	p := p
+
+	   	err := p.FlashRing(Red, 128, 3, time.Second*10)
+	   	if err != nil {
+	   		fmt.Printf("Could not light spiral %v\n", err)
+	   	}
+	   }()
+	*/
+	/*
+	   wg.Add(1)
+	   go func() {
+	   	defer wg.Done()
+	   	var pattern [MaxSpirals][MaxColors]byte
+	   	pattern[Spiral0][Green] = 64
+	   	pattern[Spiral1][White] = 64
+	   	pattern[Spiral2][Orange] = 64 // should panic if these are different!
+	   	p := p
+	   	err := p.FlashLeds(pattern, 3, time.Second*2)
+	   	if err != nil {
+	   		fmt.Printf("Could not fade leds %v\n", err)
+	   	}
+	   }()
+	*/
 
 	// Remove the rest of the demo functionality in order to reduce the potential surface area
 	// of the race detector/channel send internation
@@ -52,27 +145,8 @@ func DoMain(p *PiGlowDriver) {
 		time.Sleep(time.Second)
 
 
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			p := p
-
-			err := p.FlashSpiral(Spiral2, 32, 15, time.Second*3)
-			if err != nil {
-				fmt.Printf("Could not light spiral %v\n", err)
-			}
-		}()
 
 
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				p := p
-				err := p.FadeSpiral(Spiral0, 128, 0, time.Second*3)
-				if err != nil {
-					fmt.Printf("Could not fade led %v\n", err)
-				}
-			}()
 
 			wg.Add(1)
 			go func() {
@@ -108,29 +182,7 @@ func DoMain(p *PiGlowDriver) {
 				}
 			}()
 
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				var pattern [MaxSpirals][MaxColors]byte
-				pattern[Spiral0][Green] = 64
-				pattern[Spiral1][White] = 64
-				pattern[Spiral2][Orange] = 64 // should panic if these are different!
-				p := p
-				err := p.FlashLeds(pattern, 3, time.Second*2)
-				if err != nil {
-					fmt.Printf("Could not fade leds %v\n", err)
-				}
-			}()
 
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				p := p
-				err := p.FadeRing(Green, 128, 0, time.Second*3)
-				if err != nil {
-					fmt.Printf("Could not fade led %v\n", err)
-				}
-			}()
 
 			wg.Add(1)
 			go func() {
@@ -143,27 +195,7 @@ func DoMain(p *PiGlowDriver) {
 				}
 			}()
 
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				p := p
 
-				err := p.FlashRing(Red, 128, 3, time.Second*10)
-				if err != nil {
-					fmt.Printf("Could not light spiral %v\n", err)
-				}
-			}()
-
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				p := p
-
-				err := p.FlashLed(Spiral0, White, 128, 10, time.Second*10)
-				if err != nil {
-					fmt.Printf("Could not light spiral %v\n", err)
-				}
-			}()
 	*/
 
 	wg.Wait()
