@@ -51,7 +51,6 @@ func initUi() {
 
 func closeUi() {
 	screen.Fini()
-	panic("End Of Program - only main should remain")
 }
 
 func pressKeyToExit() {
