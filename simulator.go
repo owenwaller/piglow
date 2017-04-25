@@ -68,7 +68,7 @@ func initScreen() {
 func runSimulator() {
 	for {
 		select {
-		case <-done:
+		case <-quit:
 			//drain the channel
 			for range i2cBus {
 				// do nothing

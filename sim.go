@@ -2,6 +2,8 @@
 
 package main
 
+import "fmt"
+
 const (
 	singleByte = iota
 	multiByte
@@ -15,8 +17,9 @@ type i2cData struct {
 }
 
 var (
-	i2cBus chan i2cData
-	done   chan struct{}
+	i2cBus    chan i2cData
+	done      chan struct{}
+	busClosed bool
 )
 
 func newI2CDataByte(address, value byte) i2cData {
@@ -39,22 +42,13 @@ func initI2CBus() {
 	i2cBus = make(chan i2cData)
 }
 
-func initDone() {
-	done = make(chan struct{})
-}
-
-func closeI2CBus() {
-
-	close(i2cBus)
-}
-
-func closeDone() {
-	close(done)
-}
-
 func cancelled() bool {
 	select {
-	case <-done:
+	case <-quit:
+		if !busClosed {
+			close(i2cBus)
+			busClosed = true // make sure we don't call close twice
+		}
 		return true
 	default:
 		return false
@@ -63,7 +57,7 @@ func cancelled() bool {
 
 func (p *PiGlowDriver) writeByteData(address, value byte) error {
 	if cancelled() {
-		return nil
+		return fmt.Errorf("program quiting - write cancelled and bus closed")
 	}
 	i2cBus <- newI2CDataByte(address, value)
 	return nil
@@ -71,7 +65,7 @@ func (p *PiGlowDriver) writeByteData(address, value byte) error {
 
 func (p *PiGlowDriver) writeBlockData(address byte, values []byte) error {
 	if cancelled() {
-		return nil
+		return fmt.Errorf("program quiting - write cancelled and bus closed")
 	}
 	i2cBus <- newI2CDataBlock(address, values)
 	return nil
